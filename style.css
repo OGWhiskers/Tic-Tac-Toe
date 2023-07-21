@@ -1,3 +1,9 @@
+@font-face {
+  font-family: "infinity";
+  src: url("fonts/madeinfinity_personaluse-thin-webfont.woff2") format("woff2"),
+    url("fonts/madeinfinity_personaluse-thin-webfont.woff") format("woff");
+}
+
 .play {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -19,6 +25,9 @@
 .div-7,
 .div-8,
 .div-9 {
+  display: flex;
+  justify-content: center;
+
   width: 100%;
   height: 100%;
   border: 2px solid #475569;
@@ -36,4 +45,39 @@
 .div-8,
 .div-9 {
   border-bottom: none;
+}
+
+#avatar {
+  font-size: 43px;
+  font-family: "infinity";
+}
+
+/* HEADER  */
+
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  font-family: "infinity";
+}
+
+.btns {
+  display: flex;
+  gap: 10px;
+}
+.btn-x,
+.btn-o {
+  border-radius: 8px;
+  border: 1px solid #475569;
+  background-color: white;
+
+  width: 70px;
+  height: 30px;
+}
+
+.btn-active {
+  background-color: #475569;
+  border: 1px solid white;
+  color: white;
 }
