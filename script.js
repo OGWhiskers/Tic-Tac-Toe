@@ -9,36 +9,78 @@ const Players = () => {};
 
 // MODULE
 
-const Game = (function () {
-  const X = document.querySelector(".x");
-  const O = document.querySelector(".o");
-  const elements = document.querySelectorAll(".tiles");
+const chooseAvatar = (function () {
+  // DOM
 
   const btnX = document.querySelector(".btn-x");
   const btnO = document.querySelector(".btn-o");
+
+  // EVENT LISTEN
+
+  btnX.addEventListener("click", () => {
+    addActive(btnX);
+    removeActive(btnO);
+  });
+  btnO.addEventListener("click", () => {
+    addActive(btnO);
+    removeActive(btnX);
+  });
+
+  // FUNCTIONS :
+
+  const addActive = (btn) => btn.classList.add("btn-active");
+
+  const removeActive = (btn) => btn.classList.remove("btn-active");
+
+  return { addActive, removeActive, btnO, btnX };
+})();
+
+// SEPARATE :
+
+const Game = (function () {
+  const elements = document.querySelectorAll(".tiles");
 
   // event listeners
 
   elements.forEach((node) => {
     node.addEventListener("click", () => {
-      Game.render(node.classList[0], Gameboard.gameboard[0]);
+      Game.render(node.classList[0], activeAvatar());
     });
-  });
-
-  btnX.addEventListener("click", () => {
-    btnX.classList.add("btn-active");
-    btnO.classList.remove("btn-active");
-    toggleChoice(btnX, btnO);
-  });
-  btnO.addEventListener("click", () => {
-    btnO.classList.add("btn-active");
-    btnX.classList.remove("btn-active");
-    toggleChoice(btnX, btnO);
   });
 
   // methods
 
-  function _swicthAvatar() {}
+  const remove = chooseAvatar.removeActive;
+  const add = chooseAvatar.addActive;
+  let IsXActive = chooseAvatar.btnX.classList.contains("btn-active");
+  let IsOActive = chooseAvatar.btnO.classList.contains("btn-active");
+
+  const reset = () => {
+    IsXActive = chooseAvatar.btnX.classList.contains("btn-active");
+    IsOActive = chooseAvatar.btnO.classList.contains("btn-active");
+  };
+
+  const activeAvatar = () => {
+    if (IsXActive) {
+      return Gameboard.gameboard[0];
+    } else if (IsOActive) {
+      return Gameboard.gameboard[1];
+    }
+
+    reset();
+  };
+
+  function _swicthAvatar() {
+    if (IsXActive) {
+      remove(chooseAvatar.btnX);
+      add(chooseAvatar.btnO);
+    } else if (IsOActive) {
+      remove(chooseAvatar.btnO);
+      add(chooseAvatar.btnX);
+    }
+
+    reset();
+  }
 
   function render(position, avatar) {
     let doc = document.querySelector(`.${position}`);
@@ -48,14 +90,6 @@ const Game = (function () {
     ava.textContent = avatar;
     _swicthAvatar();
   }
-
-  const toggleChoice = (btn1, btn2) => {
-    if (btn1.classList.contains("btn-active")) {
-      btn2.classList.remove("btn-active");
-    } else if (btn2.classList.contains("btn-active")) {
-      btn1.classList.remove("btn-active");
-    }
-  };
 
   return { render };
 })();
