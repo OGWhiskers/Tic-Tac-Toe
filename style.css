@@ -33,6 +33,7 @@
   border: 2px solid #475569;
   border-top: none;
   border-left: none;
+  cursor: pointer;
 }
 
 .div-3,
@@ -74,10 +75,34 @@
 
   width: 70px;
   height: 30px;
+
+  cursor: pointer;
 }
 
 .btn-active {
   background-color: #475569;
   border: 1px solid white;
   color: white;
+}
+
+/* RESTART : */
+
+.reset {
+  display: flex;
+  justify-content: center;
+
+  width: 100vw;
+  margin: auto;
+}
+.restart {
+  border-radius: 8px;
+  background-color: #475569;
+  border: 1px solid white;
+  color: white;
+  cursor: pointer;
+
+  width: 390px;
+  height: 25px;
+
+  margin-top: 60px;
 }

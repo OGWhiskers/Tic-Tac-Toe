@@ -91,10 +91,13 @@ const Game = (function () {
   function render(position, avatar) {
     let doc = document.querySelector(`.${position}`);
     let ava = document.createElement("p");
-    ava.setAttribute("id", "avatar");
-    doc.appendChild(ava);
-    ava.textContent = avatar;
-    _swicthAvatar();
+
+    if (doc.textContent == "") {
+      ava.setAttribute("id", "avatar");
+      doc.appendChild(ava);
+      ava.textContent = avatar;
+      _swicthAvatar();
+    }
   }
 
   return { render, reset, IsXActive, IsOActive, elements };
@@ -102,9 +105,7 @@ const Game = (function () {
 
 // SEPARATE :
 
-const displayWinner = (function () {
-  //  IF X OR O ARE IN POSITION (DIFFERENT WINNING CONDITIONS DISPLAY MESSAGE)
-
+const decideWinner = (function () {
   let row1 = [];
   let row2 = [];
   let row3 = [];
@@ -186,3 +187,5 @@ const displayWinner = (function () {
     }
   };
 })();
+
+const displayWinner = (function () {})();
