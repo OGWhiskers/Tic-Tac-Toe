@@ -3,6 +3,9 @@
   src: url("fonts/madeinfinity_personaluse-thin-webfont.woff2") format("woff2"),
     url("fonts/madeinfinity_personaluse-thin-webfont.woff") format("woff");
 }
+body {
+  margin: 0;
+}
 
 .play {
   display: grid;
@@ -105,4 +108,45 @@
   height: 25px;
 
   margin-top: 60px;
+}
+
+/* OVERLAY MODAL */
+
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 200%;
+
+  margin: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 5;
+}
+
+.win-msg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: auto;
+  height: 150px;
+  width: 70vw;
+
+  font-family: "infinity";
+  font-size: 2rem;
+  color: white;
+  z-index: 6;
 }

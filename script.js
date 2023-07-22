@@ -147,12 +147,12 @@ const decideWinner = (function () {
     }
     // Event listerner:
 
-    node.addEventListener("click", (e) => {
-      winnigCondition(e);
+    node.addEventListener("click", () => {
+      winnigCondition();
     });
   });
 
-  const winnigCondition = (e) => {
+  const winnigCondition = () => {
     let xWin = (pos) => {
       return pos.textContent == "x";
     };
@@ -169,7 +169,7 @@ const decideWinner = (function () {
     };
 
     if (checkWin(row1)) {
-      console.log(`You have won`);
+      displayWinner.winEffects("X");
     } else if (checkWin(row2)) {
       console.log(`You have won`);
     } else if (checkWin(row3)) {
@@ -188,4 +188,61 @@ const decideWinner = (function () {
   };
 })();
 
-const displayWinner = (function () {})();
+// SEPARATE :
+
+const displayWinner = (function () {
+  const overlay = document.querySelector(".overlay");
+  const messageContainer = document.querySelector(".win-msg");
+  const message = document.querySelector(".msg");
+
+  const winEffects = (winner) => {
+    overlay.classList.remove("hidden");
+    messageContainer.classList.remove("hidden");
+    message.classList.remove("hidden");
+    message.textContent = `Congratulations player ${winner} has won!!!`;
+  };
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key == "Escape") {
+      overlay.classList.add("hidden");
+      messageContainer.classList.add("hidden");
+      message.classList.add("hidden");
+      restartGame.restart();
+    }
+  });
+  return { winEffects };
+})();
+
+// SEPARATE :
+
+const restartGame = (function () {
+  const restartBtn = document.querySelector(".restart");
+
+  restartBtn.addEventListener("click", restart);
+
+  function restart() {
+    Game.elements.forEach((node) => {
+      node.textContent = "";
+    });
+    chooseAvatar.addActive(chooseAvatar.btnX);
+    chooseAvatar.removeActive(chooseAvatar.btnO);
+    Game.reset();
+  }
+
+  return { restart };
+})();
+
+// SEPARATE :
+
+// const decideTie = (function () {
+//   // IF ALL DIVS HAVE A CHILD ELEMENT IT IS A TIE
+
+//   let item = [];
+//   Game.elements.forEach((node) => {
+//     item.push(node);
+//   });
+
+//   function checkTie (){
+//     if ()
+//   }
+// })();
