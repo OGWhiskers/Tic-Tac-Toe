@@ -18,12 +18,18 @@ const chooseAvatar = (function () {
   // EVENT LISTEN
 
   btnX.addEventListener("click", () => {
-    addActive(btnX);
-    removeActive(btnO);
+    if (Game.IsXActive) {
+      addActive(btnX);
+      removeActive(btnO);
+    }
+    Game.reset();
   });
   btnO.addEventListener("click", () => {
-    addActive(btnO);
-    removeActive(btnX);
+    if (!Game.IsOActive) {
+      addActive(btnO);
+      removeActive(btnX);
+    }
+    Game.reset();
   });
 
   // FUNCTIONS :
@@ -39,6 +45,8 @@ const chooseAvatar = (function () {
 
 const Game = (function () {
   const elements = document.querySelectorAll(".tiles");
+  let IsXActive = chooseAvatar.btnX.classList.contains("btn-active");
+  let IsOActive = chooseAvatar.btnO.classList.contains("btn-active");
 
   // event listeners
 
@@ -52,8 +60,6 @@ const Game = (function () {
 
   const remove = chooseAvatar.removeActive;
   const add = chooseAvatar.addActive;
-  let IsXActive = chooseAvatar.btnX.classList.contains("btn-active");
-  let IsOActive = chooseAvatar.btnO.classList.contains("btn-active");
 
   const reset = () => {
     IsXActive = chooseAvatar.btnX.classList.contains("btn-active");
@@ -91,7 +97,7 @@ const Game = (function () {
     _swicthAvatar();
   }
 
-  return { render };
+  return { render, reset, IsXActive, IsOActive };
 })();
 
 const displayController = (function () {})();
