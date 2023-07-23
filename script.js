@@ -4,9 +4,6 @@ const Gameboard = {
   gameboard: ["x", "O"],
 };
 
-// FACTORY
-const Players = () => {};
-
 // MODULE
 
 const chooseAvatar = (function () {
@@ -98,6 +95,20 @@ const Game = (function () {
       ava.textContent = avatar;
       _swicthAvatar();
     }
+
+    if (
+      elements[0].lastElementChild != null &&
+      elements[1].lastElementChild != null &&
+      elements[2].lastElementChild != null &&
+      elements[3].lastElementChild != null &&
+      elements[4].lastElementChild != null &&
+      elements[5].lastElementChild != null &&
+      elements[6].lastElementChild != null &&
+      elements[7].lastElementChild != null &&
+      elements[8].lastElementChild != null
+    ) {
+      displayWinner.tieEffects();
+    }
   }
 
   return { render, reset, IsXActive, IsOActive, elements };
@@ -161,56 +172,81 @@ const decideWinner = (function () {
       return pos.textContent == "O";
     };
 
-    const checkWin = (direc) => {
-      return (
-        (xWin(direc[0]) && xWin(direc[1]) && xWin(direc[2])) ||
-        (oWin(direc[0]) && oWin(direc[1]) && oWin(direc[2]))
-      );
+    const checkXwin = (direc) => {
+      return xWin(direc[0]) && xWin(direc[1]) && xWin(direc[2]);
+    };
+    const checkOwin = (direc) => {
+      return oWin(direc[0]) && oWin(direc[1]) && oWin(direc[2]);
     };
 
-    if (checkWin(row1)) {
-      displayWinner.winEffects("X");
-    } else if (checkWin(row2)) {
-      console.log(`You have won`);
-    } else if (checkWin(row3)) {
-      console.log(`You have won`);
-    } else if (checkWin(col1)) {
-      console.log(`You have won`);
-    } else if (checkWin(col2)) {
-      console.log(`You have won`);
-    } else if (checkWin(col3)) {
-      console.log(`You have won`);
-    } else if (checkWin(diagonal1)) {
-      console.log(`You have won`);
-    } else if (checkWin(diagonal2)) {
-      console.log(`You have won`);
-    }
+    console.log();
+    if (checkXwin(row1)) displayWinner.winEffects("X");
+    else if (checkOwin(row1)) displayWinner.winEffects("O");
+    else if (checkXwin(row2)) displayWinner.winEffects("X");
+    else if (checkOwin(row2)) displayWinner.winEffects("O");
+    else if (checkXwin(row3)) displayWinner.winEffects("X");
+    else if (checkOwin(row3)) displayWinner.winEffects("O");
+    else if (checkXwin(col1)) displayWinner.winEffects("X");
+    else if (checkOwin(col1)) displayWinner.winEffects("O");
+    else if (checkXwin(col2)) displayWinner.winEffects("X");
+    else if (checkOwin(col2)) displayWinner.winEffects("O");
+    else if (checkXwin(col3)) displayWinner.winEffects("X");
+    else if (checkOwin(col3)) displayWinner.winEffects("O");
+    else if (checkXwin(diagonal1)) displayWinner.winEffects("X");
+    else if (checkOwin(diagonal1)) displayWinner.winEffects("O");
+    else if (checkXwin(diagonal2)) displayWinner.winEffects("X");
+    else if (checkOwin(diagonal2)) displayWinner.winEffects("O");
   };
 })();
 
 // SEPARATE :
 
 const displayWinner = (function () {
+  // DOM :
+
   const overlay = document.querySelector(".overlay");
   const messageContainer = document.querySelector(".win-msg");
   const message = document.querySelector(".msg");
 
+  // FUNCTIONS :
+
+  const addHidden = (...el) => {
+    el.forEach((el) => el.classList.add("hidden"));
+  };
+  const removeHidden = (...el) => {
+    el.forEach((el) => el.classList.remove("hidden"));
+  };
+
   const winEffects = (winner) => {
-    overlay.classList.remove("hidden");
-    messageContainer.classList.remove("hidden");
-    message.classList.remove("hidden");
+    removeHidden(overlay, messageContainer, message);
     message.textContent = `Congratulations player ${winner} has won!!!`;
   };
 
+  const tieEffects = () => {
+    removeHidden(overlay, messageContainer, message);
+    message.textContent = `Game is tied :(, try again.`;
+  };
+
+  // EVENT LISTENER :
+
+  overlay.addEventListener("click", () => {
+    addHidden(overlay, messageContainer, message);
+    restartGame.restart();
+  });
+
+  messageContainer.addEventListener("click", () => {
+    addHidden(overlay, messageContainer, message);
+    restartGame.restart();
+  });
+
   document.addEventListener("keydown", (e) => {
     if (e.key == "Escape") {
-      overlay.classList.add("hidden");
-      messageContainer.classList.add("hidden");
-      message.classList.add("hidden");
+      addHidden(overlay, messageContainer, message);
       restartGame.restart();
     }
   });
-  return { winEffects };
+
+  return { winEffects, tieEffects };
 })();
 
 // SEPARATE :
@@ -231,18 +267,3 @@ const restartGame = (function () {
 
   return { restart };
 })();
-
-// SEPARATE :
-
-// const decideTie = (function () {
-//   // IF ALL DIVS HAVE A CHILD ELEMENT IT IS A TIE
-
-//   let item = [];
-//   Game.elements.forEach((node) => {
-//     item.push(node);
-//   });
-
-//   function checkTie (){
-//     if ()
-//   }
-// })();
